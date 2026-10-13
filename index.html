@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Watchezz">
+<title>Watchezz</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Figtree:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#f6f3ee;--card:#fff;--ink:#1d1a22;--mut:#716b7a;--line:#e5e0d8;--ac:#ff5a3c;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15121b;--card:#201c29;--ink:#f3eff8;--mut:#9d96a8;--line:#322d3d}}
+:root[data-theme="dark"]{--bg:#15121b;--card:#201c29;--ink:#f3eff8;--mut:#9d96a8;--line:#322d3d}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:'Bricolage Grotesque',Georgia,sans-serif;margin:0;letter-spacing:-.02em}
+main{max-width:560px;margin:0 auto;padding:14px 16px 110px}
+.top{display:flex;align-items:center;justify-content:space-between;margin:6px 0 16px}
+.top h1{font-size:28px;font-weight:800}.top h1 i{font-style:normal;color:var(--ac)}
+button{font:inherit;color:inherit;cursor:pointer}
+.ghost{background:none;border:1px solid var(--line);border-radius:99px;padding:6px 14px;color:var(--mut)}
+.card{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;margin-bottom:12px}
+.poster{flex:none;width:104px;aspect-ratio:2/3;border-radius:10px;padding:8px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;overflow:hidden;background-size:cover;background-position:center}
+.poster b{font:800 15px/1.1 'Bricolage Grotesque',sans-serif}.poster s{text-decoration:none;font-size:11px;opacity:.85}
+.dense .poster{width:68px}.dense .txt{-webkit-line-clamp:1!important}
+.body{min-width:0;flex:1;display:flex;flex-direction:column}
+.body h3{font-size:19px;font-weight:700;line-height:1.15}
+.meta{color:var(--mut);font-size:13px;margin:2px 0 6px}
+.st{color:var(--ac);letter-spacing:2px;font-size:15px}
+.txt{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:15px;margin:6px 0 0}
+.open .txt{-webkit-line-clamp:unset;display:block}
+.row{display:flex;align-items:center;gap:12px;margin-top:auto;padding-top:8px}
+.like,.del{background:none;border:0;padding:4px 0;color:var(--mut)}.like.on{color:var(--ac)}
+.tag{font-size:12px;border-radius:99px;padding:2px 10px;border:1px dashed var(--ac);color:var(--ac);font-weight:600}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:6px;padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));background:var(--card);border-top:1px solid var(--line)}
+nav button{flex:1;max-width:150px;border:0;background:none;padding:8px 0;border-radius:12px;color:var(--mut);font-weight:600}
+nav button.on{background:var(--ac);color:#fff}
+label{display:block;font-weight:600;margin:16px 0 6px}
+input,textarea{width:100%;font:inherit;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 12px}
+textarea{min-height:130px;resize:vertical}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:8px 16px}.chip.on{background:var(--ac);border-color:var(--ac);color:#fff}
+.cta{width:100%;margin-top:18px;border:0;border-radius:14px;padding:14px;background:var(--ac);color:#fff;font-weight:700;font-size:17px}
+.cta.alt{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.stars button{background:none;border:0;font-size:32px;color:var(--line);padding:0 4px}.stars button.on{color:var(--ac)}
+.sw{width:38px;height:38px;border-radius:50%;border:3px solid var(--card);box-shadow:0 0 0 1px var(--line)}.sw.on{box-shadow:0 0 0 3px var(--ink)}
+.av{width:78px;height:78px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font:800 34px 'Bricolage Grotesque',sans-serif}
+.ph{display:flex;align-items:center;gap:16px;margin-bottom:6px}
+.seg{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}.seg button{flex:1;border:0;background:var(--card);padding:10px}.seg button.on{background:var(--ac);color:#fff}
+.sub{color:var(--mut);margin:4px 0 16px}
+.res{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px;margin-top:8px}
+.res .poster{width:44px;padding:0}.res small{color:var(--mut)}
+.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:600;max-width:90%}
+.empty{text-align:center;color:var(--mut);padding:40px 10px}
+.login{padding-top:40px}.login h1{font-size:44px;font-weight:800}.login h1 i{font-style:normal;color:var(--ac)}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<nav id="nav" style="display:none"></nav>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithPopup,GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,deleteDoc,query,orderBy,limit,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+const app=initializeApp({apiKey:"AIzaSyD4b4HJFdjABaJCAd2NGHdCRtQN64aKZqY",authDomain:"watchezz-app.firebaseapp.com",projectId:"watchezz-app",storageBucket:"watchezz-app.firebasestorage.app",messagingSenderId:"204132807015",appId:"1:204132807015:web:4a0d3fc668b22739be7fc2"});
+const auth=getAuth(app),db=getFirestore(app);
+const TMDB="ecea1b4eb31e29bfa559e39693752e87";
+
+const GEN=['Akció','Sci-fi','Dráma','Romantika','Vígjáték','Thriller','Horror','Kaland'];
+const REL={'Akció':['Thriller','Kaland'],'Sci-fi':['Akció','Kaland'],'Dráma':['Romantika','Thriller'],'Romantika':['Dráma','Vígjáték'],'Vígjáték':['Romantika','Kaland'],'Thriller':['Akció','Horror','Dráma'],'Horror':['Thriller'],'Kaland':['Akció','Sci-fi']};
+const HUE={'Akció':12,'Sci-fi':205,'Dráma':275,'Romantika':335,'Vígjáték':42,'Thriller':165,'Horror':0,'Kaland':95};
+const TG={28:'Akció',12:'Kaland',16:'Kaland',35:'Vígjáték',80:'Thriller',99:'Dráma',18:'Dráma',10751:'Vígjáték',14:'Kaland',36:'Dráma',27:'Horror',10402:'Dráma',9648:'Thriller',10749:'Romantika',878:'Sci-fi',53:'Thriller',10752:'Dráma',37:'Akció'};
+const ACC=['#ff5a3c','#7c5cff','#12b886','#f59f00','#e64980','#228be6'];
+
+const S={ready:false,user:null,prof:null,reviews:[],likes:{},tab:'feed',mode:'in',busy:false,draft:{q:'',res:[],sel:null,g:'Akció',s:0,x:''}};
+let seed=Date.now(),toast='',tm;
+const E=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $=id=>document.getElementById(id);
+function rng(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}
+function shuf(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function feed(){
+  const p=S.prof.genres,R=S.reviews;
+  const A=shuf(R.filter(r=>p.includes(r.g))),B=shuf(R.filter(r=>!p.includes(r.g)&&(REL[r.g]||[]).some(x=>p.includes(x)))),C=shuf(R.filter(r=>!p.includes(r.g)&&!(REL[r.g]||[]).some(x=>p.includes(x))));
+  const bk=[A,B,C],out=[];
+  while(A.length+B.length+C.length){let i=rng()<.7?0:rng()<.67?1:2;if(!bk[i].length)i=bk.findIndex(q=>q.length);out.push({...bk[i].shift(),k:i})}
+  return out}
+const fmt=ts=>{try{return ts.toDate().toLocaleDateString('hu-HU',{month:'short',day:'numeric'})}catch(e){return 'most'}};
+function poster(r){
+  if(r.p)return `<div class="poster" style="background-image:url(${E(r.p)})" role="img" aria-label="${E(r.t)}"></div>`;
+  const h=HUE[r.g]??200;
+  return `<div class="poster" style="background-image:linear-gradient(160deg,hsl(${h} 70% 48%),hsl(${(h+45)%360} 60% 16%))"><b>${E(r.t)}</b><s>${E(r.y)}</s></div>`}
+function card(r,own){
+  const on=S.likes[r.id];
+  return `<article class="card" data-a="open">${poster(r)}<div class="body"><h3>${E(r.t)}</h3><div class="meta">${E(r.g)} · ${E(r.a)} · ${fmt(r.ts)}</div><div class="st">${'★'.repeat(r.s)}${'☆'.repeat(5-r.s)}</div><p class="txt">${E(r.x)}</p><div class="row"><button class="like ${on?'on':''}" data-a="like" data-id="${r.id}">${on?'♥ Tetszik':'♡ Kedvelem'}</button>${r.k===2&&S.prof.genres.length?'<span class="tag">Meglepetés</span>':''}${own?`<button class="del" data-a="del" data-id="${r.id}">Törlés</button>`:''}</div></div></article>`}
+
+const V={
+load:()=>`<div class="empty">Betöltés…</div>`,
+login:()=>`<div class="login"><h1>Watch<i>ezz</i></h1><p class="sub">Filmek és sorozatok, ahogy a haverod mesélné.</p>
+<button class="cta alt" data-a="google">Belépés Google-lel</button>
+<label>E-mail</label><input id="em" type="email" autocomplete="email" inputmode="email">
+<label>Jelszó</label><input id="pw" type="password" autocomplete="${S.mode==='in'?'current-password':'new-password'}">
+<button class="cta" data-a="email">${S.mode==='in'?'Belépés':'Regisztráció'}</button>
+<button class="ghost" style="margin-top:14px;width:100%" data-a="mode">${S.mode==='in'?'Nincs fiókod? Regisztrálj':'Van fiókod? Lépj be'}</button></div>`,
+ob:()=>`<div class="top"><h1>Mit nézel szívesen?</h1></div><p class="sub">Ebből állítjuk össze a feedet. Néha becsempészünk valami mást is.</p>
+<div class="chips">${GEN.map(g=>`<button class="chip ${S.prof.genres.includes(g)?'on':''}" data-a="pg" data-v="${g}">${g}</button>`).join('')}</div>
+<button class="cta" data-a="obdone">${S.prof.genres.length?'Mehet a feed':'Kihagyom'}</button>`,
+feed:()=>{const f=feed();return `<div class="top"><h1>Watch<i>ezz</i></h1><button class="ghost" data-a="refresh">Új feed</button></div>${f.map(r=>card(r)).join('')||'<div class="empty">Még nincs kritika. Írd meg az elsőt a Feltöltés fülön.</div>'}`},
+up:()=>{const d=S.draft;return `<div class="top"><h1>Új kritika</h1></div>
+<label>Melyik filmről írsz?</label><input id="q" value="${E(d.q)}" placeholder="Keress címre…" autocomplete="off">
+<div id="res">${resHTML()}</div>
+${d.sel?`<div class="res" style="margin-top:12px">${poster(d.sel)}<div><b>${E(d.sel.t)}</b><br><small>${E(d.sel.y)}</small></div></div>`:''}
+<label>Műfaj</label><div class="chips">${GEN.map(g=>`<button class="chip ${d.g===g?'on':''}" data-a="dg" data-v="${g}">${g}</button>`).join('')}</div>
+<label>Értékelés</label><div class="stars">${[1,2,3,4,5].map(n=>`<button class="${d.s>=n?'on':''}" data-a="ds" data-v="${n}">★</button>`).join('')}</div>
+<label>Kritika</label><textarea id="x" placeholder="Mit gondolsz a filmről?">${E(d.x)}</textarea>
+<button class="cta" data-a="pub">${S.busy?'Küldés…':'Közzététel'}</button>`},
+me:()=>{const p=S.prof,mine=S.reviews.filter(r=>r.uid===S.user.uid);
+return `<div class="top"><h1>Profil</h1><button class="ghost" data-a="out">Kilépés</button></div>
+<div class="ph"><div class="av">${E((p.name||'?')[0].toUpperCase())}</div><div><h2 style="font-size:22px">${E(p.name)}</h2><div class="meta">${mine.length} kritika · ${Object.keys(S.likes).length} kedvelt</div></div></div>
+<label>Neved</label><input id="nm" value="${E(p.name)}" maxlength="24">
+<label>Téma</label><div class="seg">${[['auto','Auto'],['light','Világos'],['dark','Sötét']].map(([v,l])=>`<button class="${p.theme===v?'on':''}" data-a="th" data-v="${v}">${l}</button>`).join('')}</div>
+<label>Kiemelő szín</label><div class="chips">${ACC.map(c=>`<button class="sw ${p.ac===c?'on':''}" style="background:${c}" data-a="ac" data-v="${c}" aria-label="Szín ${c}"></button>`).join('')}</div>
+<label>Kártyák</label><div class="seg"><button class="${!p.dense?'on':''}" data-a="dn" data-v="0">Nagy</button><button class="${p.dense?'on':''}" data-a="dn" data-v="1">Kompakt</button></div>
+<label>Kedvenc műfajaid</label><div class="chips">${GEN.map(g=>`<button class="chip ${p.genres.includes(g)?'on':''}" data-a="pg" data-v="${g}">${g}</button>`).join('')}</div>
+<label>Saját kritikáid</label>${mine.map(r=>card(r,true)).join('')||'<div class="empty">Itt jelennek meg a kritikáid.</div>'}`}
+};
+function resHTML(){return S.draft.res.map((m,i)=>`<button class="res" data-a="pick" data-v="${i}">${poster(m)}<div><b>${E(m.t)}</b><br><small>${E(m.y)}</small></div></button>`).join('')}
+
+function render(){
+  const r=document.documentElement,p=S.prof,a=$('app'),n=$('nav');
+  if(p){p.theme==='light'||p.theme==='dark'?r.setAttribute('data-theme',p.theme):r.removeAttribute('data-theme');r.style.setProperty('--ac',p.ac)}
+  let v='load';
+  if(S.ready)v=!S.user?'login':(!p||!p.done)?'ob':S.tab;
+  a.className=p&&p.dense?'dense':'';
+  a.innerHTML=V[v]();
+  const tabs=['feed','up','me'].includes(v);
+  n.style.display=tabs?'flex':'none';
+  if(tabs)n.innerHTML=[['feed','Feed'],['up','Feltöltés'],['me','Profil']].map(([k,l])=>`<button class="${S.tab===k?'on':''}" data-a="tab" data-v="${k}">${l}</button>`).join('');
+  if(toast)a.insertAdjacentHTML('beforeend',`<div class="toast">${E(toast)}</div>`)}
+function say(m){toast=m;render();clearTimeout(tm);tm=setTimeout(()=>{toast='';document.querySelector('.toast')?.remove()},2400)}
+const saveProf=async()=>{try{await setDoc(doc(db,'users',S.user.uid),S.prof,{merge:true})}catch(e){say('A mentés nem sikerült')}};
+function keep(){if($('x'))S.draft.x=$('x').value}
+async function loadProfile(u){
+  const ref=doc(db,'users',u.uid),s=await getDoc(ref);
+  const base={name:(u.displayName||u.email||'Te').split('@')[0],genres:[],ac:ACC[0],theme:'auto',dense:false,done:false};
+  S.prof=s.exists()?{...base,...s.data()}:base;
+  if(!s.exists())await setDoc(ref,S.prof);
+  S.likes={};(await getDocs(collection(db,'users',u.uid,'likes'))).forEach(d=>S.likes[d.id]=1)}
+async function loadFeed(){
+  const q=await getDocs(query(collection(db,'reviews'),orderBy('ts','desc'),limit(100)));
+  S.reviews=q.docs.map(d=>({id:d.id,...d.data()}))}
+const ERR={'auth/invalid-credential':'Hibás e-mail vagy jelszó','auth/email-already-in-use':'Ez az e-mail már regisztrált','auth/weak-password':'A jelszó legalább 6 karakter legyen','auth/invalid-email':'Hibás e-mail cím','auth/popup-closed-by-user':'A belépés megszakadt'};
+
+onAuthStateChanged(auth,async u=>{
+  S.user=u;
+  try{if(u){await loadProfile(u);await loadFeed()}}catch(e){console.error(e);toast='Nem sikerült betölteni az adatokat'}
+  S.ready=true;render()});
+
+let st;
+document.addEventListener('input',e=>{
+  if(e.target.id==='nm'){S.prof.name=e.target.value.trim()||'Te';clearTimeout(st);st=setTimeout(saveProf,600)}
+  if(e.target.id==='q'){
+    const q=e.target.value;S.draft.q=q;clearTimeout(st);
+    if(q.trim().length<2){S.draft.res=[];$('res').innerHTML='';return}
+    st=setTimeout(async()=>{
+      try{
+        const r=await (await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB}&language=hu-HU&query=${encodeURIComponent(q)}`)).json();
+        S.draft.res=(r.results||[]).slice(0,6).map(m=>({tid:m.id,t:m.title,y:(m.release_date||'').slice(0,4),p:m.poster_path?'https://image.tmdb.org/t/p/w342'+m.poster_path:'',g:(m.genre_ids||[]).map(i=>TG[i]).find(Boolean)||'Dráma'}));
+        if($('res'))$('res').innerHTML=resHTML()
+      }catch(err){say('A filmkeresés most nem elérhető')}},400)}});
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,v=b.dataset.v,P=S.prof;
+  try{
+  if(a==='open'){b.classList.toggle('open');return}
+  if(a==='google'){await signInWithPopup(auth,new GoogleAuthProvider());return}
+  if(a==='mode'){S.mode=S.mode==='in'?'up':'in';return render()}
+  if(a==='email'){const em=$('em').value.trim(),pw=$('pw').value;if(!em||!pw)return say('Add meg az e-mailt és a jelszót');
+    await (S.mode==='in'?signInWithEmailAndPassword:createUserWithEmailAndPassword)(auth,em,pw);return}
+  if(a==='out'){await signOut(auth);S.tab='feed';return}
+  if(a==='tab'){keep();S.tab=v;return render()}
+  if(a==='refresh'){seed=Date.now();return render()}
+  if(a==='pg'){const i=P.genres.indexOf(v);i<0?P.genres.push(v):P.genres.splice(i,1);saveProf();return render()}
+  if(a==='obdone'){P.done=true;seed=Date.now();saveProf();return render()}
+  if(a==='th'){P.theme=v;saveProf();return render()}
+  if(a==='ac'){P.ac=v;saveProf();return render()}
+  if(a==='dn'){P.dense=v==='1';saveProf();return render()}
+  if(a==='like'){e.stopPropagation();const id=b.dataset.id,ref=doc(db,'users',S.user.uid,'likes',id);
+    if(S.likes[id]){delete S.likes[id];render();await deleteDoc(ref)}else{S.likes[id]=1;render();await setDoc(ref,{ts:serverTimestamp()})}return}
+  if(a==='del'){e.stopPropagation();if(!confirm('Biztosan törlöd a kritikát?'))return;await deleteDoc(doc(db,'reviews',b.dataset.id));S.reviews=S.reviews.filter(r=>r.id!==b.dataset.id);return render()}
+  if(a==='pick'){keep();const m=S.draft.res[+v];S.draft.sel=m;S.draft.g=m.g;S.draft.q=m.t;S.draft.res=[];return render()}
+  if(a==='dg'){keep();S.draft.g=v;return render()}
+  if(a==='ds'){keep();S.draft.s=+v;return render()}
+  if(a==='pub'){keep();const d=S.draft;
+    if(S.busy)return;
+    if(!d.sel&&!d.q.trim())return say('Válaszd ki a filmet');
+    if(!d.s)return say('Válassz értékelést');
+    if(d.x.trim().length<10)return say('Írj egy kicsit többet a filmről');
+    S.busy=true;render();
+    const m=d.sel||{tid:0,t:d.q.trim(),y:'',p:''};
+    await addDoc(collection(db,'reviews'),{uid:S.user.uid,a:P.name,tid:m.tid,t:m.t,y:m.y,p:m.p,g:d.g,s:d.s,x:d.x.trim(),ts:serverTimestamp()});
+    S.draft={q:'',res:[],sel:null,g:d.g,s:0,x:''};
+    await loadFeed();S.busy=false;S.tab='feed';seed=Date.now();render();say('Közzétéve');return}
+  }catch(err){console.error(err);S.busy=false;say(ERR[err.code]||'Hiba történt, próbáld újra');}
+});
+render();
+</script>
+</body>
+</html>
