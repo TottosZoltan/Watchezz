@@ -45,24 +45,62 @@ textarea{min-height:130px;resize:vertical}
 .stars button{background:none;border:0;font-size:32px;color:var(--line);padding:0 4px}.stars button.on{color:var(--ac)}
 .sw{width:38px;height:38px;border-radius:50%;border:3px solid var(--card);box-shadow:0 0 0 1px var(--line)}.sw.on{box-shadow:0 0 0 3px var(--ink)}
 .av{width:78px;height:78px;border-radius:50%;background:var(--ac);color:#fff;display:grid;place-items:center;font:800 34px 'Bricolage Grotesque',sans-serif}
+.av-l{position:relative;cursor:pointer;display:block}.av-l small{position:absolute;right:-4px;bottom:-2px;background:var(--ink);color:var(--bg);border-radius:99px;padding:0 7px;font-size:11px}
 .ph{display:flex;align-items:center;gap:16px;margin-bottom:6px}
 .seg{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden}.seg button{flex:1;border:0;background:var(--card);padding:10px}.seg button.on{background:var(--ac);color:#fff}
 .sub{color:var(--mut);margin:4px 0 16px}
 .res{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px;margin-top:8px}
 .res .poster{width:44px;padding:0}.res small{color:var(--mut)}
-.toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:600;max-width:90%}
+.toast{z-index:40;position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:600;max-width:90%}
 .empty{text-align:center;color:var(--mut);padding:40px 10px}
 .banner{background:var(--ac);color:#fff;border-radius:14px;padding:12px 14px;margin-bottom:12px;font-weight:500}
+@media (prefers-reduced-motion:reduce){.sv .bars i.run::after{animation-duration:.01s}}
+.stories{display:flex;gap:14px;overflow-x:auto;margin:0 -16px 14px;padding:2px 16px;scrollbar-width:none}
+.stories::-webkit-scrollbar{display:none}
+.sb{flex:none;width:68px;text-align:center;background:none;border:0;padding:0;font-size:12px;color:var(--mut);position:relative;overflow:visible}
+.sb .nm{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ringb{background:none;border:0;padding:0;display:block;margin:0 auto 4px}
+.ring{display:block;width:66px;height:66px;border-radius:50%;padding:3px;background:conic-gradient(var(--ac),#f59f00,var(--ac))}
+.ring.seen{background:var(--line)}.ring.add{background:none;border:2px dashed var(--line);padding:1px}
+.ab{display:inline-grid;place-items:center;background:var(--ac);color:#fff;font-weight:800;border-radius:50%;object-fit:cover;vertical-align:middle;flex:none}
+.ring .ab{border:3px solid var(--bg)}
+.plus{position:absolute;right:2px;top:42px;width:22px;height:22px;border-radius:50%;background:var(--ac);color:#fff;font-weight:800;line-height:20px;border:2px solid var(--bg);cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.dense .grid{grid-template-columns:repeat(3,1fr);gap:6px}
+.tile{position:relative;aspect-ratio:2/3;border-radius:12px;overflow:hidden;border:0;padding:0;background-size:cover;background-position:center;color:#fff;text-align:left;background-color:var(--card)}
+.tile .ov{position:absolute;left:0;right:0;bottom:0;padding:28px 8px 8px;background:linear-gradient(transparent,rgba(0,0,0,.8))}
+.tile b{display:block;font:700 14px/1.15 'Bricolage Grotesque',sans-serif}.tile .st{font-size:12px;letter-spacing:1px}
+.dense .tile b{font-size:11px}.dense .tile .st{display:none}
+.tile .bd{position:absolute;top:6px;left:6px;font-size:11px;background:var(--ac);padding:1px 8px;border-radius:99px;font-weight:600}
+.ovw{position:fixed;inset:0;background:var(--bg);overflow:auto;z-index:20;padding:calc(12px + env(safe-area-inset-top,0px)) 16px calc(28px + env(safe-area-inset-bottom,0px))}
+.ovw .in{max-width:560px;margin:0 auto}
+.big{width:min(62%,260px);margin:14px auto}
+.who{display:flex;align-items:center;gap:10px;margin:8px 0}
+.sv{position:fixed;inset:0;z-index:30;background-color:#000;background-size:cover;background-position:center;color:#fff;display:flex;flex-direction:column;justify-content:space-between}
+.sv .shade{position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.55),transparent 30%,transparent 55%,rgba(0,0,0,.85))}
+.sv>*{position:relative}
+.sv .bars{display:flex;gap:4px;padding:calc(10px + env(safe-area-inset-top,0px)) 10px 0}
+.bars i{flex:1;height:3px;background:rgba(255,255,255,.35);border-radius:2px;overflow:hidden;position:relative}
+.bars i.done{background:#fff}
+.bars i.run::after{content:'';position:absolute;inset:0;background:#fff;transform-origin:left;animation:fill 5s linear forwards}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.sv .sh{display:flex;align-items:center;gap:10px;padding:10px 12px}.sv .sh span{flex:1}
+.sv .sh button{background:none;border:0;color:#fff;font-size:15px;padding:6px}
+.sv .zl,.sv .zr{position:absolute;top:90px;bottom:150px;width:40%}.sv .zl{left:0}.sv .zr{right:0}
+.sv .cap{padding:16px 18px calc(24px + env(safe-area-inset-bottom,0px))}.sv .cap b{font:800 24px/1.1 'Bricolage Grotesque',sans-serif;display:block}
+.sv .cap .st{margin:4px 0}
+.fileh{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 .login{padding-top:40px}.login h1{font-size:44px;font-weight:800}.login h1 i{font-style:normal;color:var(--ac)}
 </style>
 </head>
 <body>
 <main id="app"></main>
 <nav id="nav" style="display:none"></nav>
+<div id="sv"></div>
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {getAuth,onAuthStateChanged,signInWithPopup,GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import {getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,deleteDoc,updateDoc,query,orderBy,limit,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import {getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,deleteDoc,updateDoc,query,where,orderBy,limit,serverTimestamp,Timestamp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const app=initializeApp({apiKey:"AIzaSyD4b4HJFdjABaJCAd2NGHdCRtQN64aKZqY",authDomain:"watchezz-app.firebaseapp.com",projectId:"watchezz-app",storageBucket:"watchezz-app.firebasestorage.app",messagingSenderId:"204132807015",appId:"1:204132807015:web:4a0d3fc668b22739be7fc2"});
 const auth=getAuth(app),db=getFirestore(app);
@@ -74,8 +112,9 @@ const HUE={'Akció':12,'Sci-fi':205,'Dráma':275,'Romantika':335,'Vígjáték':4
 const TG={28:'Akció',12:'Kaland',16:'Kaland',35:'Vígjáték',80:'Thriller',99:'Dráma',18:'Dráma',10751:'Vígjáték',14:'Kaland',36:'Dráma',27:'Horror',10402:'Dráma',9648:'Thriller',10749:'Romantika',878:'Sci-fi',53:'Thriller',10752:'Dráma',37:'Akció'};
 const ACC=['#ff5a3c','#7c5cff','#12b886','#f59f00','#e64980','#228be6'];
 
-const S={admin:false,ann:'',reports:[],ready:false,user:null,prof:null,reviews:[],likes:{},tab:'feed',mode:'in',busy:false,draft:{q:'',res:[],sel:null,g:'Akció',s:0,x:''}};
+const S={pf:{},stories:[],story:null,sheet:null,seen:[],admin:false,ann:'',reports:[],ready:false,user:null,prof:null,reviews:[],likes:{},tab:'feed',mode:'in',busy:false,draft:{mode:'rev',q:'',res:[],sel:null,g:'Akció',s:0,x:''}};
 let seed=Date.now(),toast='',tm;
+try{S.seen=JSON.parse(localStorage.getItem('wzseen')||'[]')}catch(e){}
 const E=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const $=id=>document.getElementById(id);
 function rng(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}
@@ -87,14 +126,22 @@ function feed(){
   while(A.length+B.length+C.length){let i=rng()<.7?0:rng()<.67?1:2;if(!bk[i].length)i=bk.findIndex(q=>q.length);out.push({...bk[i].shift(),k:i})}
   return pin.concat(out)}
 const fmt=ts=>{try{return ts.toDate().toLocaleDateString('hu-HU',{month:'short',day:'numeric'})}catch(e){return 'most'}};
-function poster(r){
-  if(r.p)return `<div class="poster" style="background-image:url(${E(r.p)})" role="img" aria-label="${E(r.t)}"></div>`;
-  const h=HUE[r.g]??200;
-  return `<div class="poster" style="background-image:linear-gradient(160deg,hsl(${h} 70% 48%),hsl(${(h+45)%360} 60% 16%))"><b>${E(r.t)}</b><s>${E(r.y)}</s></div>`}
-function card(r,own){
-  const on=S.likes[r.id];
-  return `<article class="card" data-a="open">${poster(r)}<div class="body"><h3>${E(r.t)}</h3><div class="meta">${E(r.g)} · ${E(r.a)} · ${fmt(r.ts)}</div><div class="st">${'★'.repeat(r.s)}${'☆'.repeat(5-r.s)}</div><p class="txt">${E(r.x)}</p><div class="row"><button class="like ${on?'on':''}" data-a="like" data-id="${r.id}">${on?'♥ Tetszik':'♡ Kedvelem'}</button>${r.k===-1?'<span class="tag">Kiemelt</span>':''}${r.k===2&&S.prof.genres.length?'<span class="tag">Meglepetés</span>':''}${S.admin?`<button class="del" data-a="pin" data-id="${r.id}">${r.pin?'Levétel':'Kiemelés'}</button>`:''}${r.uid!==S.user.uid?`<button class="del" data-a="rep" data-id="${r.id}">Jelentés</button>`:''}${(own||S.admin)?`<button class="del" data-a="del" data-id="${r.id}">Törlés</button>`:''}</div></div></article>`}
-
+const bg=(r,big)=>{if(r.p)return `background-image:url(${E(big?r.p.replace('/w500/','/w780/'):r.p)})`;const h=HUE[r.g]??200;return `background-image:linear-gradient(160deg,hsl(${h} 70% 48%),hsl(${(h+45)%360} 60% 16%))`};
+const poster=(r,c='')=>`<div class="poster ${c}" style="${bg(r)}" role="img" aria-label="${E(r.t)}">${r.p?'':`<b>${E(r.t)}</b><s>${E(r.y)}</s>`}</div>`;
+const AV=(uid,n=40)=>{const p=S.pf[uid]||{},nm=p.name||'?';return p.photo?`<img class="ab" src="${p.photo}" style="width:${n}px;height:${n}px" alt="">`:`<span class="ab" style="width:${n}px;height:${n}px;font-size:${Math.round(n*.45)}px">${E(nm[0].toUpperCase())}</span>`};
+const stars=n=>'★'.repeat(n)+'☆'.repeat(5-n);
+function tile(r){
+  const badge=r.k===-1?'Kiemelt':(r.k===2&&S.prof.genres.length?'Meglepetés':'');
+  return `<button class="tile" style="${bg(r)}" data-a="sheet" data-id="${r.id}" aria-label="${E(r.t)}">${badge?`<span class="bd">${badge}</span>`:''}<span class="ov"><b>${E(r.t)}</b><span class="st">${stars(r.s)}</span></span></button>`}
+function sheetHTML(r){
+  const on=S.likes[r.id],own=r.uid===S.user.uid;
+  return `<div class="ovw"><div class="in"><button class="ghost" data-a="sclose">Bezár</button>${poster(r,'big')}<h2 style="font-size:26px">${E(r.t)}</h2><div class="meta">${E(r.y)} · ${E(r.g)}</div><div class="who">${AV(r.uid,34)}<span>${E(r.a)} · ${fmt(r.ts)}</span></div><div class="st" style="font-size:20px">${stars(r.s)}</div><p style="white-space:pre-wrap">${E(r.x)}</p><div class="row" style="flex-wrap:wrap"><button class="like ${on?'on':''}" data-a="like" data-id="${r.id}">${on?'♥ Tetszik':'♡ Kedvelem'}</button>${S.admin?`<button class="del" data-a="pin" data-id="${r.id}">${r.pin?'Kiemelés levétele':'Kiemelés'}</button>`:''}${!own?`<button class="del" data-a="rep" data-id="${r.id}">Jelentés</button>`:''}${own||S.admin?`<button class="del" data-a="del" data-id="${r.id}">Törlés</button>`:''}</div></div></div>`}
+function groups(){const m=new Map();S.stories.forEach(x=>{if(!m.has(x.uid))m.set(x.uid,[]);m.get(x.uid).push(x)});return m}
+const unseen=g=>g.some(x=>!S.seen.includes(x.id));
+function storyRow(){
+  const m=groups(),me=S.user.uid,own=m.get(me);
+  const others=[...m.entries()].filter(([u])=>u!==me).sort((a,b)=>unseen(b[1])-unseen(a[1]));
+  return `<div class="stories"><div class="sb"><button class="ringb" data-a="${own?'story':'newstory'}" data-u="${me}" aria-label="Saját sztori"><span class="ring ${own?(unseen(own)?'':'seen'):'add'}">${AV(me,60)}</span></button><span class="plus" data-a="newstory" role="button" aria-label="Új sztori">+</span><span class="nm">Te</span></div>${others.map(([u,g])=>`<button class="sb" data-a="story" data-u="${u}"><span class="ring ${unseen(g)?'':'seen'}">${AV(u,60)}</span><span class="nm">${E(g[0].a)}</span></button>`).join('')}</div>`}
 const V={
 load:()=>`<div class="empty">Betöltés…</div>`,
 login:()=>`<div class="login"><h1>Watch<i>ezz</i></h1><p class="sub">Filmek és sorozatok, ahogy a haverod mesélné.</p>
@@ -106,24 +153,25 @@ login:()=>`<div class="login"><h1>Watch<i>ezz</i></h1><p class="sub">Filmek és 
 ob:()=>`<div class="top"><h1>Mit nézel szívesen?</h1></div><p class="sub">Ebből állítjuk össze a feedet. Néha becsempészünk valami mást is.</p>
 <div class="chips">${GEN.map(g=>`<button class="chip ${S.prof.genres.includes(g)?'on':''}" data-a="pg" data-v="${g}">${g}</button>`).join('')}</div>
 <button class="cta" data-a="obdone">${S.prof.genres.length?'Mehet a feed':'Kihagyom'}</button>`,
-feed:()=>{const f=feed();return `<div class="top"><h1>Watch<i>ezz</i></h1><button class="ghost" data-a="refresh">Új feed</button></div>${S.ann?`<div class="banner">${E(S.ann)}</div>`:''}${f.map(r=>card(r)).join('')||'<div class="empty">Még nincs kritika. Írd meg az elsőt a Feltöltés fülön.</div>'}`},
-up:()=>{const d=S.draft;return `<div class="top"><h1>Új kritika</h1></div>
-<label>Melyik filmről írsz?</label><input id="q" value="${E(d.q)}" placeholder="Keress címre…" autocomplete="off">
+feed:()=>{const f=feed();return `<div class="top"><h1>Watch<i>ezz</i></h1><button class="ghost" data-a="refresh">Új feed</button></div>${storyRow()}${S.ann?`<div class="banner">${E(S.ann)}</div>`:''}${f.length?`<div class="grid">${f.map(tile).join('')}</div>`:'<div class="empty">Még nincs kritika. Írd meg az elsőt a Feltöltés fülön.</div>'}`},
+up:()=>{const d=S.draft,st=d.mode==='sto';return `<div class="top"><h1>${st?'Új sztori':'Új kritika'}</h1></div>
+<div class="seg"><button class="${!st?'on':''}" data-a="um" data-v="rev">Kritika</button><button class="${st?'on':''}" data-a="um" data-v="sto">Sztori (24 óráig)</button></div>
+<label>Melyik filmről van szó?</label><input id="q" value="${E(d.q)}" placeholder="Keress címre…" autocomplete="off">
 <div id="res">${resHTML()}</div>
 ${d.sel?`<div class="res" style="margin-top:12px">${poster(d.sel)}<div><b>${E(d.sel.t)}</b><br><small>${E(d.sel.y)}</small></div></div>`:''}
-<label>Műfaj</label><div class="chips">${GEN.map(g=>`<button class="chip ${d.g===g?'on':''}" data-a="dg" data-v="${g}">${g}</button>`).join('')}</div>
+${st?'':`<label>Műfaj</label><div class="chips">${GEN.map(g=>`<button class="chip ${d.g===g?'on':''}" data-a="dg" data-v="${g}">${g}</button>`).join('')}</div>`}
 <label>Értékelés</label><div class="stars">${[1,2,3,4,5].map(n=>`<button class="${d.s>=n?'on':''}" data-a="ds" data-v="${n}">★</button>`).join('')}</div>
-<label>Kritika</label><textarea id="x" placeholder="Mit gondolsz a filmről?">${E(d.x)}</textarea>
-<button class="cta" data-a="pub">${S.busy?'Küldés…':'Közzététel'}</button>`},
-me:()=>{const p=S.prof,mine=S.reviews.filter(r=>r.uid===S.user.uid);
+<label>${st?'Pár szó (nem kötelező)':'Kritika'}</label><textarea id="x" ${st?'maxlength="140" style="min-height:80px"':''} placeholder="${st?'Mi jutott eszedbe róla?':'Mit gondolsz a filmről?'}">${E(d.x)}</textarea>
+<button class="cta" data-a="pub">${S.busy?'Küldés…':st?'Sztori közzététele':'Közzététel'}</button>`},
+me:()=>{const p=S.prof,me=S.user.uid,mine=S.reviews.filter(r=>r.uid===me).map(r=>({...r,k:0}));
 return `<div class="top"><h1>Profil</h1><button class="ghost" data-a="out">Kilépés</button></div>
-<div class="ph"><div class="av">${E((p.name||'?')[0].toUpperCase())}</div><div><h2 style="font-size:22px">${E(p.name)}</h2><div class="meta">${mine.length} kritika · ${Object.keys(S.likes).length} kedvelt</div></div></div>
+<div class="ph"><label class="av-l" for="pf">${AV(me,78)}<small>Csere</small></label><input id="pf" class="fileh" type="file" accept="image/*"><div><h2 style="font-size:22px">${E(p.name)}</h2><div class="meta">${mine.length} kritika · ${Object.keys(S.likes).length} kedvelt</div></div></div>
 <label>Neved</label><input id="nm" value="${E(p.name)}" maxlength="24">
 <label>Téma</label><div class="seg">${[['auto','Auto'],['light','Világos'],['dark','Sötét']].map(([v,l])=>`<button class="${p.theme===v?'on':''}" data-a="th" data-v="${v}">${l}</button>`).join('')}</div>
 <label>Kiemelő szín</label><div class="chips">${ACC.map(c=>`<button class="sw ${p.ac===c?'on':''}" style="background:${c}" data-a="ac" data-v="${c}" aria-label="Szín ${c}"></button>`).join('')}</div>
-<label>Kártyák</label><div class="seg"><button class="${!p.dense?'on':''}" data-a="dn" data-v="0">Nagy</button><button class="${p.dense?'on':''}" data-a="dn" data-v="1">Kompakt</button></div>
+<label>Rács</label><div class="seg"><button class="${!p.dense?'on':''}" data-a="dn" data-v="0">2 oszlop</button><button class="${p.dense?'on':''}" data-a="dn" data-v="1">3 oszlop</button></div>
 <label>Kedvenc műfajaid</label><div class="chips">${GEN.map(g=>`<button class="chip ${p.genres.includes(g)?'on':''}" data-a="pg" data-v="${g}">${g}</button>`).join('')}</div>
-<label>Saját kritikáid</label>${mine.map(r=>card(r,true)).join('')||'<div class="empty">Itt jelennek meg a kritikáid.</div>'}`},
+<label>Saját kritikáid</label>${mine.length?`<div class="grid">${mine.map(tile).join('')}</div>`:'<div class="empty">Itt jelennek meg a kritikáid.</div>'}`},
 adm:()=>{const rp=S.reports.map(x=>{const r=S.reviews.find(v=>v.id===x.rid);return `<div class="res" style="display:block"><b>${r?E(r.t):'(már törölt kritika)'}</b><br><small>${r?E(r.a)+': '+E(r.x.slice(0,120)):''}</small><div class="row">${r?`<button class="del" data-a="repdel" data-id="${x.id}" data-rid="${x.rid}">Kritika törlése</button>`:''}<button class="del" data-a="repno" data-id="${x.id}">Elvetés</button></div></div>`}).join('');
 return `<div class="top"><h1>Admin</h1></div><div class="res" style="display:block"><b>${S.reviews.length}</b> kritika · <b>${S.reports.length}</b> nyitott jelentés</div><label>Közlemény a feed tetejére</label><textarea id="ann" style="min-height:80px" maxlength="200">${E(S.ann)}</textarea><button class="cta" data-a="annsave">Közlemény mentése</button><label>Jelentések</label>${rp||'<div class="empty">Nincs nyitott jelentés.</div>'}`}
 };
@@ -139,14 +187,29 @@ function render(){
   const tabs=['feed','up','me','adm'].includes(v);
   n.style.display=tabs?'flex':'none';
   if(tabs)n.innerHTML=[['feed','Feed'],['up','Feltöltés'],['me','Profil']].concat(S.admin?[['adm','Admin']]:[]).map(([k,l])=>`<button class="${S.tab===k?'on':''}" data-a="tab" data-v="${k}">${l}</button>`).join('');
+  if(S.sheet&&S.user){const r=S.reviews.find(v=>v.id===S.sheet);if(r)a.insertAdjacentHTML('beforeend',sheetHTML(r));else S.sheet=null}
   if(toast)a.insertAdjacentHTML('beforeend',`<div class="toast">${E(toast)}</div>`)}
 function say(m){toast=m;render();clearTimeout(tm);tm=setTimeout(()=>{toast='';document.querySelector('.toast')?.remove()},2400)}
-const saveProf=async()=>{try{await setDoc(doc(db,'users',S.user.uid),S.prof,{merge:true})}catch(e){say('A mentés nem sikerült')}};
+const saveProf=async()=>{try{await setDoc(doc(db,'users',S.user.uid),S.prof,{merge:true});if((S.pf[S.user.uid]||{}).name!==S.prof.name){S.pf[S.user.uid]={...S.pf[S.user.uid],name:S.prof.name};await setDoc(doc(db,'profiles',S.user.uid),{name:S.prof.name},{merge:true})}}catch(e){say('A mentés nem sikerült')}};
+async function ensurePf(uids){const need=[...new Set(uids)].filter(u=>!(u in S.pf));await Promise.all(need.map(async u=>{try{const x=await getDoc(doc(db,'profiles',u));S.pf[u]=x.exists()?x.data():{}}catch(e){S.pf[u]={}}}))}
+async function loadStories(){try{const since=Timestamp.fromMillis(Date.now()-864e5);const q=await getDocs(query(collection(db,'stories'),where('ts','>=',since),orderBy('ts','asc'),limit(100)));S.stories=q.docs.map(d=>({id:d.id,...d.data()}));await ensurePf(S.stories.map(x=>x.uid))}catch(e){console.error(e)}}
+function resize(f){return new Promise((ok,no)=>{const im=new Image(),u=URL.createObjectURL(f);im.onload=()=>{const c=document.createElement('canvas'),n=192;c.width=c.height=n;const m=Math.min(im.width,im.height);c.getContext('2d').drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,n,n);URL.revokeObjectURL(u);ok(c.toDataURL('image/jpeg',.82))};im.onerror=no;im.src=u})}
+function drawStory(){
+  const st=S.story,el=$('sv');clearTimeout(S.stm);
+  if(!st){el.innerHTML='';return}
+  const r=st.list[st.i];
+  if(!S.seen.includes(r.id)){S.seen.push(r.id);try{localStorage.setItem('wzseen',JSON.stringify(S.seen.slice(-300)))}catch(e){}}
+  const can=r.uid===S.user.uid||S.admin;
+  el.innerHTML=`<div class="sv" style="${bg(r,true)}"><div class="shade"></div><div class="bars">${st.list.map((_,k)=>`<i class="${k<st.i?'done':k===st.i?'run':''}"></i>`).join('')}</div><div class="sh">${AV(r.uid,34)}<span>${E(r.a)} · ${fmt(r.ts)}</span>${can?'<button data-a="sdel">Törlés</button>':''}<button data-a="sx" aria-label="Bezár">✕</button></div><div class="zl" data-a="sp"></div><div class="zr" data-a="sn"></div><div class="cap"><b>${E(r.t)}</b><div class="st">${stars(r.s)}</div>${r.x?`<div>${E(r.x)}</div>`:''}</div></div>`;
+  S.stm=setTimeout(nextStory,5000)}
+function nextStory(){const st=S.story;if(!st)return;if(st.i+1<st.list.length){st.i++;drawStory()}else closeStory()}
+function closeStory(){S.story=null;drawStory();render()}
 function keep(){if($('x'))S.draft.x=$('x').value}
 async function loadProfile(u){
   const ref=doc(db,'users',u.uid),s=await getDoc(ref);
   const base={name:(u.displayName||u.email||'Te').split('@')[0],genres:[],ac:ACC[0],theme:'auto',dense:false,done:false};
   S.prof=s.exists()?{...base,...s.data()}:base;
+  const pr=await getDoc(doc(db,'profiles',u.uid));S.pf[u.uid]=pr.exists()?pr.data():{name:S.prof.name};if(!pr.exists())await setDoc(doc(db,'profiles',u.uid),{name:S.prof.name});
   if(!s.exists())await setDoc(ref,S.prof);
   S.likes={};(await getDocs(collection(db,'users',u.uid,'likes'))).forEach(d=>S.likes[d.id]=1)}
 async function checkAdmin(u){
@@ -163,9 +226,14 @@ const ERR={'auth/invalid-credential':'Hibás e-mail vagy jelszó','auth/email-al
 
 onAuthStateChanged(auth,async u=>{
   S.user=u;S.admin=false;
-  try{if(u){await loadProfile(u);await checkAdmin(u);await loadFeed()}}catch(e){console.error(e);toast='Nem sikerült betölteni az adatokat'}
+  try{if(u){await loadProfile(u);await checkAdmin(u);await loadFeed();await loadStories()}}catch(e){console.error(e);toast='Nem sikerült betölteni az adatokat'}
   S.ready=true;render()});
 
+document.addEventListener('change',async e=>{
+  if(e.target.id!=='pf'||!e.target.files[0])return;
+  try{const ph=await resize(e.target.files[0]);S.pf[S.user.uid]={...S.pf[S.user.uid],name:S.prof.name,photo:ph};render();
+    await setDoc(doc(db,'profiles',S.user.uid),{name:S.prof.name,photo:ph},{merge:true});say('Profilkép mentve')}
+  catch(err){console.error(err);say('A kép mentése nem sikerült')}});
 let st;
 document.addEventListener('input',e=>{
   if(e.target.id==='nm'){S.prof.name=e.target.value.trim()||'Te';clearTimeout(st);st=setTimeout(saveProf,600)}
@@ -175,13 +243,21 @@ document.addEventListener('input',e=>{
     st=setTimeout(async()=>{
       try{
         const r=await (await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${TMDB}&language=hu-HU&query=${encodeURIComponent(q)}`)).json();
-        S.draft.res=(r.results||[]).slice(0,6).map(m=>({tid:m.id,t:m.title,y:(m.release_date||'').slice(0,4),p:m.poster_path?'https://image.tmdb.org/t/p/w342'+m.poster_path:'',g:(m.genre_ids||[]).map(i=>TG[i]).find(Boolean)||'Dráma'}));
+        S.draft.res=(r.results||[]).slice(0,6).map(m=>({tid:m.id,t:m.title,y:(m.release_date||'').slice(0,4),p:m.poster_path?'https://image.tmdb.org/t/p/w500'+m.poster_path:'',g:(m.genre_ids||[]).map(i=>TG[i]).find(Boolean)||'Dráma'}));
         if($('res'))$('res').innerHTML=resHTML()
       }catch(err){say('A filmkeresés most nem elérhető')}},400)}});
 document.addEventListener('click',async e=>{
   const b=e.target.closest('[data-a]');if(!b)return;const a=b.dataset.a,v=b.dataset.v,P=S.prof;
   try{
-  if(a==='open'){b.classList.toggle('open');return}
+  if(a==='sheet'){S.sheet=b.dataset.id;ensurePf(S.reviews.filter(r=>r.id===S.sheet).map(r=>r.uid)).then(()=>S.sheet&&render());return render()}
+  if(a==='sclose'){S.sheet=null;return render()}
+  if(a==='um'){keep();S.draft.mode=v;return render()}
+  if(a==='newstory'){e.stopPropagation();S.draft.mode='sto';S.tab='up';return render()}
+  if(a==='story'){const list=S.stories.filter(x=>x.uid===b.dataset.u);if(!list.length)return;const i=list.findIndex(x=>!S.seen.includes(x.id));S.story={list,i:i<0?0:i};return drawStory()}
+  if(a==='sx')return closeStory();
+  if(a==='sn')return nextStory();
+  if(a==='sp'){if(S.story&&S.story.i>0){S.story.i--;drawStory()}return}
+  if(a==='sdel'){const r=S.story.list[S.story.i];if(!confirm('Törlöd a sztorit?'))return;clearTimeout(S.stm);await deleteDoc(doc(db,'stories',r.id));S.stories=S.stories.filter(x=>x.id!==r.id);S.story.list=S.story.list.filter(x=>x.id!==r.id);if(!S.story.list.length)return closeStory();S.story.i=Math.min(S.story.i,S.story.list.length-1);return drawStory()}
   if(a==='google'){await signInWithPopup(auth,new GoogleAuthProvider());return}
   if(a==='mode'){S.mode=S.mode==='in'?'up':'in';return render()}
   if(a==='email'){const em=$('em').value.trim(),pw=$('pw').value;if(!em||!pw)return say('Add meg az e-mailt és a jelszót');
@@ -196,7 +272,7 @@ document.addEventListener('click',async e=>{
   if(a==='dn'){P.dense=v==='1';saveProf();return render()}
   if(a==='like'){e.stopPropagation();const id=b.dataset.id,ref=doc(db,'users',S.user.uid,'likes',id);
     if(S.likes[id]){delete S.likes[id];render();await deleteDoc(ref)}else{S.likes[id]=1;render();await setDoc(ref,{ts:serverTimestamp()})}return}
-  if(a==='del'){e.stopPropagation();if(!confirm('Biztosan törlöd a kritikát?'))return;await deleteDoc(doc(db,'reviews',b.dataset.id));S.reviews=S.reviews.filter(r=>r.id!==b.dataset.id);return render()}
+  if(a==='del'){e.stopPropagation();if(!confirm('Biztosan törlöd a kritikát?'))return;await deleteDoc(doc(db,'reviews',b.dataset.id));S.reviews=S.reviews.filter(r=>r.id!==b.dataset.id);S.sheet=null;return render()}
   if(a==='rep'){e.stopPropagation();const id=b.dataset.id;await setDoc(doc(db,'reports',id+'_'+S.user.uid),{rid:id,uid:S.user.uid,ts:serverTimestamp()});return say('Jelentve, köszönjük')}
   if(a==='pin'){e.stopPropagation();const id=b.dataset.id,r=S.reviews.find(v=>v.id===id);await updateDoc(doc(db,'reviews',id),{pin:!r.pin});r.pin=!r.pin;return render()}
   if(a==='annsave'){S.ann=$('ann').value.trim();await setDoc(doc(db,'config','announcement'),{text:S.ann});return say(S.ann?'Közlemény mentve':'Közlemény törölve')}
@@ -207,13 +283,20 @@ document.addEventListener('click',async e=>{
   if(a==='ds'){keep();S.draft.s=+v;return render()}
   if(a==='pub'){keep();const d=S.draft;
     if(S.busy)return;
+    if(d.mode==='sto'){
+      if(!d.sel)return say('Válaszd ki a filmet a listából');
+      if(!d.s)return say('Válassz értékelést');
+      S.busy=true;render();
+      await addDoc(collection(db,'stories'),{uid:S.user.uid,a:P.name,tid:d.sel.tid,t:d.sel.t,y:d.sel.y,p:d.sel.p,g:d.g,s:d.s,x:d.x.trim().slice(0,140),ts:serverTimestamp()});
+      S.draft={mode:'rev',q:'',res:[],sel:null,g:d.g,s:0,x:''};
+      await loadStories();S.busy=false;S.tab='feed';render();say('Sztori közzétéve');return}
     if(!d.sel&&!d.q.trim())return say('Válaszd ki a filmet');
     if(!d.s)return say('Válassz értékelést');
     if(d.x.trim().length<10)return say('Írj egy kicsit többet a filmről');
     S.busy=true;render();
     const m=d.sel||{tid:0,t:d.q.trim(),y:'',p:''};
     await addDoc(collection(db,'reviews'),{uid:S.user.uid,a:P.name,tid:m.tid,t:m.t,y:m.y,p:m.p,g:d.g,s:d.s,x:d.x.trim(),ts:serverTimestamp()});
-    S.draft={q:'',res:[],sel:null,g:d.g,s:0,x:''};
+    S.draft={mode:'rev',q:'',res:[],sel:null,g:d.g,s:0,x:''};
     await loadFeed();S.busy=false;S.tab='feed';seed=Date.now();render();say('Közzétéve');return}
   }catch(err){console.error(err);S.busy=false;say(ERR[err.code]||'Hiba történt, próbáld újra');}
 });
