@@ -52,6 +52,7 @@ textarea{min-height:130px;resize:vertical}
 .res .poster{width:44px;padding:0}.res small{color:var(--mut)}
 .toast{position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:600;max-width:90%}
 .empty{text-align:center;color:var(--mut);padding:40px 10px}
+.banner{background:var(--ac);color:#fff;border-radius:14px;padding:12px 14px;margin-bottom:12px;font-weight:500}
 .login{padding-top:40px}.login h1{font-size:44px;font-weight:800}.login h1 i{font-style:normal;color:var(--ac)}
 </style>
 </head>
@@ -61,7 +62,7 @@ textarea{min-height:130px;resize:vertical}
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {getAuth,onAuthStateChanged,signInWithPopup,GoogleAuthProvider,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import {getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,deleteDoc,query,orderBy,limit,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import {getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,deleteDoc,updateDoc,query,orderBy,limit,serverTimestamp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const app=initializeApp({apiKey:"AIzaSyD4b4HJFdjABaJCAd2NGHdCRtQN64aKZqY",authDomain:"watchezz-app.firebaseapp.com",projectId:"watchezz-app",storageBucket:"watchezz-app.firebasestorage.app",messagingSenderId:"204132807015",appId:"1:204132807015:web:4a0d3fc668b22739be7fc2"});
 const auth=getAuth(app),db=getFirestore(app);
@@ -73,18 +74,18 @@ const HUE={'Akció':12,'Sci-fi':205,'Dráma':275,'Romantika':335,'Vígjáték':4
 const TG={28:'Akció',12:'Kaland',16:'Kaland',35:'Vígjáték',80:'Thriller',99:'Dráma',18:'Dráma',10751:'Vígjáték',14:'Kaland',36:'Dráma',27:'Horror',10402:'Dráma',9648:'Thriller',10749:'Romantika',878:'Sci-fi',53:'Thriller',10752:'Dráma',37:'Akció'};
 const ACC=['#ff5a3c','#7c5cff','#12b886','#f59f00','#e64980','#228be6'];
 
-const S={ready:false,user:null,prof:null,reviews:[],likes:{},tab:'feed',mode:'in',busy:false,draft:{q:'',res:[],sel:null,g:'Akció',s:0,x:''}};
+const S={admin:false,ann:'',reports:[],ready:false,user:null,prof:null,reviews:[],likes:{},tab:'feed',mode:'in',busy:false,draft:{q:'',res:[],sel:null,g:'Akció',s:0,x:''}};
 let seed=Date.now(),toast='',tm;
 const E=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const $=id=>document.getElementById(id);
 function rng(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}
 function shuf(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function feed(){
-  const p=S.prof.genres,R=S.reviews;
+  const p=S.prof.genres,R=S.reviews.filter(r=>!r.pin),pin=S.reviews.filter(r=>r.pin).map(r=>({...r,k:-1}));
   const A=shuf(R.filter(r=>p.includes(r.g))),B=shuf(R.filter(r=>!p.includes(r.g)&&(REL[r.g]||[]).some(x=>p.includes(x)))),C=shuf(R.filter(r=>!p.includes(r.g)&&!(REL[r.g]||[]).some(x=>p.includes(x))));
   const bk=[A,B,C],out=[];
   while(A.length+B.length+C.length){let i=rng()<.7?0:rng()<.67?1:2;if(!bk[i].length)i=bk.findIndex(q=>q.length);out.push({...bk[i].shift(),k:i})}
-  return out}
+  return pin.concat(out)}
 const fmt=ts=>{try{return ts.toDate().toLocaleDateString('hu-HU',{month:'short',day:'numeric'})}catch(e){return 'most'}};
 function poster(r){
   if(r.p)return `<div class="poster" style="background-image:url(${E(r.p)})" role="img" aria-label="${E(r.t)}"></div>`;
@@ -92,7 +93,7 @@ function poster(r){
   return `<div class="poster" style="background-image:linear-gradient(160deg,hsl(${h} 70% 48%),hsl(${(h+45)%360} 60% 16%))"><b>${E(r.t)}</b><s>${E(r.y)}</s></div>`}
 function card(r,own){
   const on=S.likes[r.id];
-  return `<article class="card" data-a="open">${poster(r)}<div class="body"><h3>${E(r.t)}</h3><div class="meta">${E(r.g)} · ${E(r.a)} · ${fmt(r.ts)}</div><div class="st">${'★'.repeat(r.s)}${'☆'.repeat(5-r.s)}</div><p class="txt">${E(r.x)}</p><div class="row"><button class="like ${on?'on':''}" data-a="like" data-id="${r.id}">${on?'♥ Tetszik':'♡ Kedvelem'}</button>${r.k===2&&S.prof.genres.length?'<span class="tag">Meglepetés</span>':''}${own?`<button class="del" data-a="del" data-id="${r.id}">Törlés</button>`:''}</div></div></article>`}
+  return `<article class="card" data-a="open">${poster(r)}<div class="body"><h3>${E(r.t)}</h3><div class="meta">${E(r.g)} · ${E(r.a)} · ${fmt(r.ts)}</div><div class="st">${'★'.repeat(r.s)}${'☆'.repeat(5-r.s)}</div><p class="txt">${E(r.x)}</p><div class="row"><button class="like ${on?'on':''}" data-a="like" data-id="${r.id}">${on?'♥ Tetszik':'♡ Kedvelem'}</button>${r.k===-1?'<span class="tag">Kiemelt</span>':''}${r.k===2&&S.prof.genres.length?'<span class="tag">Meglepetés</span>':''}${S.admin?`<button class="del" data-a="pin" data-id="${r.id}">${r.pin?'Levétel':'Kiemelés'}</button>`:''}${r.uid!==S.user.uid?`<button class="del" data-a="rep" data-id="${r.id}">Jelentés</button>`:''}${(own||S.admin)?`<button class="del" data-a="del" data-id="${r.id}">Törlés</button>`:''}</div></div></article>`}
 
 const V={
 load:()=>`<div class="empty">Betöltés…</div>`,
@@ -105,7 +106,7 @@ login:()=>`<div class="login"><h1>Watch<i>ezz</i></h1><p class="sub">Filmek és 
 ob:()=>`<div class="top"><h1>Mit nézel szívesen?</h1></div><p class="sub">Ebből állítjuk össze a feedet. Néha becsempészünk valami mást is.</p>
 <div class="chips">${GEN.map(g=>`<button class="chip ${S.prof.genres.includes(g)?'on':''}" data-a="pg" data-v="${g}">${g}</button>`).join('')}</div>
 <button class="cta" data-a="obdone">${S.prof.genres.length?'Mehet a feed':'Kihagyom'}</button>`,
-feed:()=>{const f=feed();return `<div class="top"><h1>Watch<i>ezz</i></h1><button class="ghost" data-a="refresh">Új feed</button></div>${f.map(r=>card(r)).join('')||'<div class="empty">Még nincs kritika. Írd meg az elsőt a Feltöltés fülön.</div>'}`},
+feed:()=>{const f=feed();return `<div class="top"><h1>Watch<i>ezz</i></h1><button class="ghost" data-a="refresh">Új feed</button></div>${S.ann?`<div class="banner">${E(S.ann)}</div>`:''}${f.map(r=>card(r)).join('')||'<div class="empty">Még nincs kritika. Írd meg az elsőt a Feltöltés fülön.</div>'}`},
 up:()=>{const d=S.draft;return `<div class="top"><h1>Új kritika</h1></div>
 <label>Melyik filmről írsz?</label><input id="q" value="${E(d.q)}" placeholder="Keress címre…" autocomplete="off">
 <div id="res">${resHTML()}</div>
@@ -122,7 +123,9 @@ return `<div class="top"><h1>Profil</h1><button class="ghost" data-a="out">Kilé
 <label>Kiemelő szín</label><div class="chips">${ACC.map(c=>`<button class="sw ${p.ac===c?'on':''}" style="background:${c}" data-a="ac" data-v="${c}" aria-label="Szín ${c}"></button>`).join('')}</div>
 <label>Kártyák</label><div class="seg"><button class="${!p.dense?'on':''}" data-a="dn" data-v="0">Nagy</button><button class="${p.dense?'on':''}" data-a="dn" data-v="1">Kompakt</button></div>
 <label>Kedvenc műfajaid</label><div class="chips">${GEN.map(g=>`<button class="chip ${p.genres.includes(g)?'on':''}" data-a="pg" data-v="${g}">${g}</button>`).join('')}</div>
-<label>Saját kritikáid</label>${mine.map(r=>card(r,true)).join('')||'<div class="empty">Itt jelennek meg a kritikáid.</div>'}`}
+<label>Saját kritikáid</label>${mine.map(r=>card(r,true)).join('')||'<div class="empty">Itt jelennek meg a kritikáid.</div>'}`},
+adm:()=>{const rp=S.reports.map(x=>{const r=S.reviews.find(v=>v.id===x.rid);return `<div class="res" style="display:block"><b>${r?E(r.t):'(már törölt kritika)'}</b><br><small>${r?E(r.a)+': '+E(r.x.slice(0,120)):''}</small><div class="row">${r?`<button class="del" data-a="repdel" data-id="${x.id}" data-rid="${x.rid}">Kritika törlése</button>`:''}<button class="del" data-a="repno" data-id="${x.id}">Elvetés</button></div></div>`}).join('');
+return `<div class="top"><h1>Admin</h1></div><div class="res" style="display:block"><b>${S.reviews.length}</b> kritika · <b>${S.reports.length}</b> nyitott jelentés</div><label>Közlemény a feed tetejére</label><textarea id="ann" style="min-height:80px" maxlength="200">${E(S.ann)}</textarea><button class="cta" data-a="annsave">Közlemény mentése</button><label>Jelentések</label>${rp||'<div class="empty">Nincs nyitott jelentés.</div>'}`}
 };
 function resHTML(){return S.draft.res.map((m,i)=>`<button class="res" data-a="pick" data-v="${i}">${poster(m)}<div><b>${E(m.t)}</b><br><small>${E(m.y)}</small></div></button>`).join('')}
 
@@ -130,12 +133,12 @@ function render(){
   const r=document.documentElement,p=S.prof,a=$('app'),n=$('nav');
   if(p){p.theme==='light'||p.theme==='dark'?r.setAttribute('data-theme',p.theme):r.removeAttribute('data-theme');r.style.setProperty('--ac',p.ac)}
   let v='load';
-  if(S.ready)v=!S.user?'login':(!p||!p.done)?'ob':S.tab;
+  if(S.ready)v=!S.user?'login':(!p||!p.done)?'ob':(S.tab==='adm'&&!S.admin?'feed':S.tab);
   a.className=p&&p.dense?'dense':'';
   a.innerHTML=V[v]();
-  const tabs=['feed','up','me'].includes(v);
+  const tabs=['feed','up','me','adm'].includes(v);
   n.style.display=tabs?'flex':'none';
-  if(tabs)n.innerHTML=[['feed','Feed'],['up','Feltöltés'],['me','Profil']].map(([k,l])=>`<button class="${S.tab===k?'on':''}" data-a="tab" data-v="${k}">${l}</button>`).join('');
+  if(tabs)n.innerHTML=[['feed','Feed'],['up','Feltöltés'],['me','Profil']].concat(S.admin?[['adm','Admin']]:[]).map(([k,l])=>`<button class="${S.tab===k?'on':''}" data-a="tab" data-v="${k}">${l}</button>`).join('');
   if(toast)a.insertAdjacentHTML('beforeend',`<div class="toast">${E(toast)}</div>`)}
 function say(m){toast=m;render();clearTimeout(tm);tm=setTimeout(()=>{toast='';document.querySelector('.toast')?.remove()},2400)}
 const saveProf=async()=>{try{await setDoc(doc(db,'users',S.user.uid),S.prof,{merge:true})}catch(e){say('A mentés nem sikerült')}};
@@ -146,14 +149,21 @@ async function loadProfile(u){
   S.prof=s.exists()?{...base,...s.data()}:base;
   if(!s.exists())await setDoc(ref,S.prof);
   S.likes={};(await getDocs(collection(db,'users',u.uid,'likes'))).forEach(d=>S.likes[d.id]=1)}
+async function checkAdmin(u){
+  try{const ref=doc(db,'config','admin'),s=await getDoc(ref);
+    if(s.exists())S.admin=s.data().uid===u.uid;
+    else if((u.email||'').toLowerCase()==='admin@admin.com'){await setDoc(ref,{uid:u.uid,ts:serverTimestamp()});S.admin=true}
+  }catch(e){console.error(e)}}
 async function loadFeed(){
   const q=await getDocs(query(collection(db,'reviews'),orderBy('ts','desc'),limit(100)));
-  S.reviews=q.docs.map(d=>({id:d.id,...d.data()}))}
+  S.reviews=q.docs.map(d=>({id:d.id,...d.data()}));
+  try{const a=await getDoc(doc(db,'config','announcement'));S.ann=a.exists()?(a.data().text||''):''}catch(e){}
+  if(S.admin){try{S.reports=(await getDocs(collection(db,'reports'))).docs.map(d=>({id:d.id,...d.data()}))}catch(e){}}}
 const ERR={'auth/invalid-credential':'Hibás e-mail vagy jelszó','auth/email-already-in-use':'Ez az e-mail már regisztrált','auth/weak-password':'A jelszó legalább 6 karakter legyen','auth/invalid-email':'Hibás e-mail cím','auth/popup-closed-by-user':'A belépés megszakadt'};
 
 onAuthStateChanged(auth,async u=>{
-  S.user=u;
-  try{if(u){await loadProfile(u);await loadFeed()}}catch(e){console.error(e);toast='Nem sikerült betölteni az adatokat'}
+  S.user=u;S.admin=false;
+  try{if(u){await loadProfile(u);await checkAdmin(u);await loadFeed()}}catch(e){console.error(e);toast='Nem sikerült betölteni az adatokat'}
   S.ready=true;render()});
 
 let st;
@@ -187,6 +197,11 @@ document.addEventListener('click',async e=>{
   if(a==='like'){e.stopPropagation();const id=b.dataset.id,ref=doc(db,'users',S.user.uid,'likes',id);
     if(S.likes[id]){delete S.likes[id];render();await deleteDoc(ref)}else{S.likes[id]=1;render();await setDoc(ref,{ts:serverTimestamp()})}return}
   if(a==='del'){e.stopPropagation();if(!confirm('Biztosan törlöd a kritikát?'))return;await deleteDoc(doc(db,'reviews',b.dataset.id));S.reviews=S.reviews.filter(r=>r.id!==b.dataset.id);return render()}
+  if(a==='rep'){e.stopPropagation();const id=b.dataset.id;await setDoc(doc(db,'reports',id+'_'+S.user.uid),{rid:id,uid:S.user.uid,ts:serverTimestamp()});return say('Jelentve, köszönjük')}
+  if(a==='pin'){e.stopPropagation();const id=b.dataset.id,r=S.reviews.find(v=>v.id===id);await updateDoc(doc(db,'reviews',id),{pin:!r.pin});r.pin=!r.pin;return render()}
+  if(a==='annsave'){S.ann=$('ann').value.trim();await setDoc(doc(db,'config','announcement'),{text:S.ann});return say(S.ann?'Közlemény mentve':'Közlemény törölve')}
+  if(a==='repno'){await deleteDoc(doc(db,'reports',b.dataset.id));S.reports=S.reports.filter(x=>x.id!==b.dataset.id);return render()}
+  if(a==='repdel'){if(!confirm('Törlöd a kritikát?'))return;const rid=b.dataset.rid;await deleteDoc(doc(db,'reviews',rid));S.reviews=S.reviews.filter(r=>r.id!==rid);await Promise.all(S.reports.filter(x=>x.rid===rid).map(x=>deleteDoc(doc(db,'reports',x.id))));S.reports=S.reports.filter(x=>x.rid!==rid);return render()}
   if(a==='pick'){keep();const m=S.draft.res[+v];S.draft.sel=m;S.draft.g=m.g;S.draft.q=m.t;S.draft.res=[];return render()}
   if(a==='dg'){keep();S.draft.g=v;return render()}
   if(a==='ds'){keep();S.draft.s=+v;return render()}
